@@ -20,34 +20,57 @@
 
 ## DynamoDB API
 
-| Managing Tables | Remarks | 
-|---------------|-------------|
+<table>
+
+<tr><td>
+  
+| Managing Tables |
+|---------------|
 |ListTables | 
 |DescribeTable|
-|CreateTable| **Table Name**: Ex: Orders ,**Primary Key**: Order Id,** Sort Key: Order_Line_Num **, **Read & Write Capacity Units** |
+|CreateTable|
 |Updatetable|
 |DeleteTable|
-
+  
+</td><td>
+  
 | Reading Data |
 |---------------|
 |GetItem |
 |BatchGetItem|
 |Query|
 |Scan|
-
+  
+</td><td>
+  
 | Managing Tables |
 |---------------|
 |PutItem |
 |UpdateItem|
 |DeleteItem|
 |BatchWriteItem|
-
+  
+</td></tr> </table>
 
 
 ## Drawbacks
 * Your data is automatically replicated.Three copies are stored in three different availability zones.in milliseconds, but sometimes it can take longer. This is known as eventual consistency But there are certain kinds of queries and table scans that may return older versions of data before the most recent copy.
 * DynamoDB's queries aren't as flexible like Sql `Computation in your application code`
 * DynamoDB doesn't offer the wide range of data types
-* maximum record size of 400 KB and the limit of 10 indexes per table
+* maximum record size of 400 KB and the limit of 25 indexes per table
 * DynamoDB performance can scale up as your needs grow, your performance is limited to the amount of read and write throughput that you've provisioned for each table. If you expect a spike in database use, you will need to provision more throughput in advance or database requests will fail with a ProvisionedThroughputExceededException.
+
+## Creating table
+* Primary Key ( Partition Key )
+* Composite Key ( Partition Key and a Sort Key)
+
+## Understand Provisioned Throughput
+* Read Capacity Units
+  1. If you have five read capacity units, then DynamoDB will let you make five requests per second. 
+  2. The counter resets after every second. If your records are larger than 4 kilobytes, then you'll use one read capacity unit for every 4 kilobytes.
+  3. And if you elect to use eventually consistent reads rather than strong consistency, you'll only be using half as many units. You can specify this on each query.
+* Write Capacity Units
+  1. you will use one unit of write capacity to store a single record in your DynamoDB table, no larger than 1 kilobyte in size every second. Just like with read capacity, if your record exceeds 1 kilobyte, you would need more than one write capacity unit in order to store it in the table.
+* Requests exceeding your capacity limit will be denied with an error called a `provision throughput exceeded exception`
+
 
